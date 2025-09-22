@@ -32,12 +32,19 @@ const guardarTareas = async (nuevasTareas) => {
 
 const agregarTarea = () => {
   if (tarea.trim() === '') return;
-  const nuevasTareas = [...tareas, { id: Date.now().toString(), texto: tarea }];
+  const nuevasTareas = [...tareas, { id: Date.now().toString(), texto: tarea, completed: false }];
   setTareas(nuevasTareas);
   guardarTareas(nuevasTareas);
   setTarea('');
 };
 
+const toggleTareaCompletada = (id) => {
+  const nuevasTareas = tareas.map(t => 
+    t.id === id ? { ...t, completed: !t.completed } : t
+  );
+  setTareas(nuevasTareas);
+  guardarTareas(nuevasTareas);
+};  
 
   return (
     <View style={styles.container}>
@@ -56,7 +63,12 @@ const agregarTarea = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <View style={styles.taskItem}>
-            <Text>{[item.texto ]}</Text>
+            <Text
+             style={[styles.taskItem, item.completed && styles.completedText]}
+             onPress={() => toggleTareaCompletada(item.id)}
+            >
+              {item.texto}{item.completed ? '✅' : '🟩'}
+            </Text>
           </View>
         )}
         ListEmptyComponent={<Text>No hay tareas.</Text>}
@@ -94,4 +106,12 @@ const styles = StyleSheet.create({
   flatList: {
     width: '100%',
   },
+  completed: { 
+    textDecorationLine: 'line-through', 
+    color: 'gray'
+  },
+  completedText: { 
+    color: 'gray',
+    textDecorationLine: 'line-through' 
+  }
 });
