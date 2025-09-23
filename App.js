@@ -46,7 +46,13 @@ const toggleTareaCompletada = (id) => {
   guardarTareas(nuevasTareas);
 };  
 
-  return (
+const eliminarTarea = (id) => {
+  const nuevasTareas = tareas.filter(t => t.id !== id);
+  setTareas(nuevasTareas);
+  guardarTareas(nuevasTareas);
+};
+
+return (
     <View style={styles.container}>
       <Text style={{fontSize: 24, marginBottom: 16}}>Lista de Tareas</Text>
       <View style={styles.inputRow}>
@@ -56,7 +62,7 @@ const toggleTareaCompletada = (id) => {
           value={tarea}
           onChangeText={setTarea}
         />
-        <Button title="Agregar" onPress={agregarTarea} />
+        <Button title="+" onPress={agregarTarea} />
       </View>
       <FlatList
         data={tareas}
@@ -67,7 +73,11 @@ const toggleTareaCompletada = (id) => {
              style={[styles.taskItem, item.completed && styles.completedText]}
              onPress={() => toggleTareaCompletada(item.id)}
             >
-              {item.texto}{item.completed ? '✅' : '🟩'}
+              {item.texto}
+              <View>
+                {item.completed ? '✅' : '🟩'}
+                <Button title="🗑️" onPress={() => eliminarTarea(item.id)} />
+              </View>
             </Text>
           </View>
         )}
@@ -109,5 +119,14 @@ const styles = StyleSheet.create({
   completedText: { 
     color: 'gray',
     textDecorationLine: 'line-through' 
+  },
+  boton: {
+    borderRadius: 10,
+    backgroundColor: '#fefef9b8',
+    color: 'red',
+    padding: 5,
+    marginLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
