@@ -106,10 +106,6 @@ const styles = StyleSheet.create({
   flatList: {
     width: '100%',
   },
-  completed: { 
-    textDecorationLine: 'line-through', 
-    color: 'gray'
-  },
   completedText: { 
     color: 'gray',
     textDecorationLine: 'line-through' 
